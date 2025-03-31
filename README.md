@@ -82,7 +82,7 @@ This script:
 ```bash
 ├── main.py              # Loads data, trains models, evaluates localization accuracy
 ├── least_squares.py     # Implements Least Squares method for position estimation
-├── common.py            # Helper classes (Vector2D, LocalizationAlgorithm2D)
+├── common.py            # Helper classes (Vector2D)
 ├── data/                # Directory where the dataset should be placed (not included)
 ```
 

@@ -13,7 +13,7 @@ This is not a direct copy but an implementation derived from the concepts presen
 from typing import List
 import numpy as np
 
-from common import LocalizationAlgorithm2D, Vector2D
+from common import Vector2D
 
 
 def get_2d_position_using_least_squares_algorithm(x_vals: List[float], 
@@ -66,7 +66,7 @@ def _inverse(matrix: np.array) -> np.array:
     return np.linalg.inv(matrix)
 
 
-class LeastSquaresAlgorithm2D(LocalizationAlgorithm2D):
+class LeastSquaresAlgorithm2D:
     def predict(self, x_list: List[float], y_list: List[float], d_list: List[float]) -> Vector2D:
         """Predict the 2D position based on given beacon coordinates and distances."""
         return get_2d_position_using_least_squares_algorithm(x_list, y_list, d_list)

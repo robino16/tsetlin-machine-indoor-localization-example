@@ -1,10 +1,12 @@
 # Tsetlin Machine for Indoor Localization Example
 
-This repository demonstrates how the [Tsetlin Machine](https://en.wikipedia.org/wiki/Tsetlin_machine) can be used for indoor localization using Bluetooth Low Energy (BLE) Received Signal Strength Indicator (RSSI) values. The dataset used is the [BLE RSSI Dataset for Indoor Localization](https://www.kaggle.com/datasets/mehdimka/ble-rssi-dataset) by Mehdi Mohammad on Kaggle.
+This repository demonstrates how the [Tsetlin Machine](https://en.wikipedia.org/wiki/Tsetlin_machine) can be used for indoor localization using Bluetooth Low Energy (BLE) Received Signal Strength Indicator (RSSI) values.
+This example uses the [BLE RSSI Dataset for Indoor Localization](https://www.kaggle.com/datasets/mehdimka/ble-rssi-dataset) by Mehdi Mohammad on Kaggle.
 
 ## Overview
 
-This is a minimal example of indoor localization using the **fingerprinting technique**. In real-world applications, fingerprinting requires manually collecting RSSI measurements at various locations, which is a time-consuming process.
+This is a minimal example of indoor localization using the **fingerprinting technique**.
+In real-world applications, fingerprinting requires manually collecting RSSI measurements at various locations, which is a time-consuming process.
 
 ### Key Findings:
 
@@ -13,7 +15,8 @@ This is a minimal example of indoor localization using the **fingerprinting tech
 
 ### Disclaimer:
 
-This is an **oversimplified** example designed to demonstrate the use of the Tsetlin Machine for indoor localization. It **does not** represent a production-ready solution and has several limitations:
+This is an **oversimplified** example designed to demonstrate the use of the Tsetlin Machine for indoor localization.
+It **does not** represent a production-ready solution and has several limitations:
 
 1. **Dataset Limitations:**
 
@@ -25,12 +28,14 @@ This is an **oversimplified** example designed to demonstrate the use of the Tse
    - However, this may lead to **data leakage**, where identical or near-identical samples appear in both the training and test sets, making the model's performance seem better than it would be in real-world deployment.
    - A more realistic approach might involve **time-based splitting**, but even then, there is a risk of overlap between training and test samples.
 
-For a more in-depth discussion of these challenges and potential improvements, see my **master's thesis**:  
+For a more in-depth discussion of challenges with indoor localization and potential improvements, see my **master's thesis**:  
 [An Environment-Adaptive Approach for Indoor Localization Using the Tsetlin Machine](https://uia.brage.unit.no/uia-xmlui/handle/11250/2823874).
 
 ## How It Works
 
-In this project, we use **multiple Regression Tsetlin Machines (RTMs)**—one for each access point (AP). Each RTM predicts the distance between the mobile device and the AP. This method provides more accurate distance estimations compared to a simple **path loss model**, which often struggles with environmental variations.
+In this project, we use **multiple Regression Tsetlin Machines (RTMs)**—one for each access point (AP).
+Each RTM predicts the distance between the mobile device and the AP.
+This method provides more accurate distance estimations compared to a simple **path loss model**, which often struggles with environmental variations.
 
 After predicting distances, we apply a localization algorithm:
 
@@ -46,11 +51,26 @@ The Least Squares method refines the estimated position by minimizing the error 
 Before running the code, ensure you have the following:
 
 1. **Python** (>=3.8) – Download from [python.org](https://www.python.org)
-2. **Tsetlin Machine (TMU)** – Install by following the instructions in the [TMU repository](https://github.com/cair/tmu)
+2. **Tsetlin Machine** – Install by following the instructions in the [Tsetlin Machine Unified repository](https://github.com/cair/tmu)
+
+## Dependencies
+
+This example also uses common third-party packages like `matplotlib`, `pandas`, `numpy`, and `scikit-learn`.
+These can be installed with pip by running:
+
+```bash
+pip install matplotlib pandas numpy scikit-learn
+```
+
+or by installing all dependencies via:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## Dataset
 
-The project utilizes the [BLE RSSI Dataset for Indoor Localization](https://www.kaggle.com/datasets/mehdimka/ble-rssi-dataset).
+This example utilizes the [BLE RSSI Dataset for Indoor Localization](https://www.kaggle.com/datasets/mehdimka/ble-rssi-dataset).
 The dataset is licensed under **CC BY-NC-SA 4.0**, meaning it **cannot** be used for commercial purposes.
 
 **⚠️ Dataset Not Included**
@@ -64,7 +84,7 @@ You must download it manually from Kaggle and place it in the expected directory
 
 ## Running the Project
 
-To train and evaluate the Tsetlin Machine for indoor localization, run:
+To run this example, run the following command:
 
 ```sh
 python main.py
@@ -76,6 +96,7 @@ This script:
 - Trains a Regression Tsetlin Machine for each access point
 - Uses the Least Squares algorithm for final position estimation
 - Outputs localization accuracy statistics
+- Plots two graphs
 
 ## Structure
 
@@ -97,15 +118,29 @@ The script outputs localization error statistics, including:
 **Example output:**
 
 ```
-Average error: 2.09 m
-Max error: 10.03 m
-Min error: 0.16 m
-Standard deviation: 1.19 m
+Average error: 2.10 m
+Max error: 10.35 m
+Min error: 0.15 m
+Standard deviation: 1.22 m
 ```
+
+**Visualization:**
+
+1. RSSI vs. Actual Distance
+
+![RSSI vs. Actual Distance](output/rssi_vs_distance.png)
+
+_Figure 1: This image illustrates how noisy the original RSSI data is. It is very difficult to determine the exact distance of a node based on RSSI alone, as the signal strength fluctuates significantly due to environmental factors such as interference, multipath effects, and obstacles._
+
+2. Predicted vs. Actual Distance
+
+![Predicted vs. Actual Distance](output/predicted_vs_actual_distance.png)
+
+_Figure 2: After estimating distances using the Tsetlin Machine, we see that the predictions align somewhat with the actual distances. The points tend to follow the diagonal (y = x), which represents an ideal prediction. However, the predictions are not perfect, as there is still a noticeable spread around the optimal line, indicating estimation errors._
 
 ## Acknowledgments
 
-- This project is based on the **Tsetlin Machine** and its implementation in the [TMU library](https://github.com/cair/tmu).
+- This project is based on the **Tsetlin Machine** and its implementation in the [Tsetlin Machine Unified (TMU) library](https://github.com/cair/tmu).
 - The dataset was created by Mehdi Mohammad and is available on [Kaggle](https://www.kaggle.com/datasets/mehdimka/ble-rssi-dataset).
 - The **Least Squares localization implementation** is based on the mathematical concepts described in:
   - **Ye, Z., Xu, Y., Lin, J., Li, G., Geng, E., & Pang, Y. (2018).**  
